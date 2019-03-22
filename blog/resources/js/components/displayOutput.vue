@@ -5,13 +5,14 @@
       <div>
         <h2>{{item.title}}</h2>
         <p>{{item.content}}</p>
-        <button @click="updateAvailable(true)">Change</button>
-        <button @click="updateAvailable(false)"> Cancel</button>
+        <!-- <button @click="updateAvailable(true)">Change</button>
+        <button @click="updateAvailable(false)"> Cancel</button> -->
       </div>
       <div>
         <input v-model="title[index]" :placeholder="item.title">
         <input v-model="content[index]" :placeholder="item.content">
         <button @click="updateInfo(index,title[index],content[index])">Update</button>
+        <button @click="deleteInfo(index)">Delete</button>
       </div>
      </div>
 </div>
@@ -28,21 +29,20 @@ export default {
         update: true,
       };
     },
-    // mounted(){
-    //     this.links = this.$store.state.links; 
-    // },
     methods: {
         updateInfo(index,title,content) {
-            this.$store.dispatch('updateLink',{'index':index,'title':title,'content':content});
-            this.update=true;
+          if(content==null|| content==undefined) {
+            content ='';
+          }
+          if(title==null||title==undefined) {
+            title = '';
+          }
+          this.$store.dispatch('updateLink',{'index':index,'title':title,'content':content});
+          this.update=true;
         },
-      // getLinks: function () {
-      //   this.links = this.$store.state.links;
-      // },
-      // activateLink: function (index) {
-      //   // this.$store.dispatch('activateLink', { index });
-      //   this.$store.commit('activateLink', { index });
-      // }
+        deleteInfo(index) {
+          this.$store.dispatch('deleteLink',{'index':index})
+        }
     },
     created: function () {
         if(this.update==true){

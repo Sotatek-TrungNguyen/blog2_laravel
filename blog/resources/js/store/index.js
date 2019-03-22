@@ -43,6 +43,13 @@ export default new Vuex.Store({
     	console.log(payload);
     	state.links[payload.index].title= payload.title;
     	state.links[payload.index].content=payload.content;
+    },
+    deleteInfo: function (state, payload) {
+      if(payload.index==0) {
+        state.links.shift();
+      }
+      else{state.links.splice(payload.index,payload.index);}
+      
     }
   },
   // Asynchronous methods that can call mutation methods to mutate the state via commits.
@@ -57,7 +64,10 @@ export default new Vuex.Store({
     updateLink: function (store, payload) {
     	console.log("updated");
     	store.commit('updateInfo',payload);
-
+    },
+    deleteLink: function(store, payload) {
+      console.log("delete"+payload.index);
+      store.commit('deleteInfo',payload);
     }
   }
 });

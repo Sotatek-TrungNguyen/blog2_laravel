@@ -6,10 +6,10 @@
 
     <div class="panel-body">
         <!-- Display Validation Errors -->
-        {{--@include('common.errors')--}}
+        @include('common.errors')
 
         <!-- New Task Form -->
-        <form action="{{ url('/1/todolist') }}" method="POST" class="form-horizontal">
+        <form action="{{ url('task') }}" method="POST" class="form-horizontal">
             {!! csrf_field() !!}
 
             <!-- Task Name -->
@@ -17,7 +17,7 @@
                 <label for="task" class="col-sm-3 control-label">Task</label>
 
                 <div class="col-sm-6">
-                    <input type="text" name="content" id="task-name" class="form-control">
+                    <input type="text" name="name" id="task-name" class="form-control">
                 </div>
             </div>
 
@@ -33,7 +33,7 @@
     </div>
 
     <!-- Current Tasks -->
-    @if (count($todolist) > 0)
+    @if (count($tasks) > 0)
         <div class="panel panel-default">
             <div class="panel-heading">
                 Current Tasks
@@ -50,21 +50,15 @@
 
                     <!-- Table Body -->
                     <tbody>
-                        @foreach ($todolist as $todolist)
+                        @foreach ($tasks as $task)
                             <tr>
                                 <!-- Task Name -->
                                 <td class="table-text">
-                                    <div>{{ $todolist->content }}</div>
+                                    <div>{{ $task->title }}</div>
                                 </td>
 
-                                <!-- Delete Button -->
                                 <td>
-                                    <form action="{{ url('/1/todolist/'.$todolist->id) }}" method="POST">
-                                        {!! csrf_field() !!}
-                                        {!! method_field('DELETE') !!}
-
-                                        <button>Delete Task</button>
-                                    </form>
+                                    <!-- TODO: Delete Button -->
                                 </td>
                             </tr>
                         @endforeach

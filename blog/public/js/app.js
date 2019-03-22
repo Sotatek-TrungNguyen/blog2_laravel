@@ -1828,6 +1828,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'displayOutput',
   data: function data() {
@@ -1838,17 +1839,27 @@ __webpack_require__.r(__webpack_exports__);
       update: true
     };
   },
-  // mounted(){
-  //     this.links = this.$store.state.links; 
-  // },
   methods: {
     updateInfo: function updateInfo(index, title, content) {
+      if (content == null || content == undefined) {
+        content = '';
+      }
+
+      if (title == null || title == undefined) {
+        title = '';
+      }
+
       this.$store.dispatch('updateLink', {
         'index': index,
         'title': title,
         'content': content
       });
       this.update = true;
+    },
+    deleteInfo: function deleteInfo(index) {
+      this.$store.dispatch('deleteLink', {
+        'index': index
+      });
     }
   },
   created: function created() {
@@ -37082,31 +37093,7 @@ var render = function() {
           _c("div", [
             _c("h2", [_vm._v(_vm._s(item.title))]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(item.content))]),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                on: {
-                  click: function($event) {
-                    return _vm.updateAvailable(true)
-                  }
-                }
-              },
-              [_vm._v("Change")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                on: {
-                  click: function($event) {
-                    return _vm.updateAvailable(false)
-                  }
-                }
-              },
-              [_vm._v(" Cancel")]
-            )
+            _c("p", [_vm._v(_vm._s(item.content))])
           ]),
           _vm._v(" "),
           _c("div", [
@@ -37166,6 +37153,18 @@ var render = function() {
                 }
               },
               [_vm._v("Update")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.deleteInfo(index)
+                  }
+                }
+              },
+              [_vm._v("Delete")]
             )
           ])
         ])
@@ -51072,6 +51071,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       console.log(payload);
       state.links[payload.index].title = payload.title;
       state.links[payload.index].content = payload.content;
+    },
+    deleteInfo: function deleteInfo(state, payload) {
+      if (payload.index == 0) {
+        state.links.shift();
+      } else {
+        state.links.splice(payload.index, payload.index);
+      }
     }
   },
   // Asynchronous methods that can call mutation methods to mutate the state via commits.
@@ -51086,6 +51092,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     updateLink: function updateLink(store, payload) {
       console.log("updated");
       store.commit('updateInfo', payload);
+    },
+    deleteLink: function deleteLink(store, payload) {
+      console.log("delete" + payload.index);
+      store.commit('deleteInfo', payload);
     }
   }
 }));
