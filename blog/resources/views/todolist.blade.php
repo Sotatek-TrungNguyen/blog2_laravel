@@ -56,6 +56,22 @@
                                 <td class="table-text">
                                     <div>{{ $todolist->content }}</div>
                                 </td>
+                                 <!-- Change Button -->
+                                <td>
+                                    <form action="{{ url('/1/todolist/change/'.$todolist->id) }}" method="POST" class="form-horizontal">
+                                    {!! csrf_field() !!}
+
+                                        <!-- Task Name -->
+                                        <div class="form-group">
+                                            <label for="task" class="col-sm-3 control-label">Task</label>
+
+                                            <div class="col-sm-6">
+                                                <input value='{{$todolist->content}}' type="text" name="content" id="task-name" class="form-control">
+                                            </div>
+                                            <button>Update</button>
+                                        </div>
+                                    </form>
+                                </td>
 
                                 <!-- Delete Button -->
                                 <td>

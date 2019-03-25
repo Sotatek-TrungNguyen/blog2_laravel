@@ -36,6 +36,16 @@ Route::group(['middleware' => 'web'], function () {
 
         return redirect('/1');
     });
+    /**
+     * Edit Task
+     */
+    Route::post('/1/todolist/change/{todolist}', function (Request $request, Todolist $todolist) {
+       
+        $todolist->content = $request->content;
+        $todolist->save();
+
+        return redirect('/1');
+    });
 
     /**
      * Delete Task
